@@ -1,0 +1,41 @@
+/* 
+   GitHub Notifications dashlet CSS
+*/
+.myalfresco-sites-dashlet > .scrollableList
+{
+    padding-top: 0;
+}
+.myalfresco-sites-dashlet div.detail-list-item
+{
+    min-height: 48px; /* No smaller that profile images */
+}
+.myalfresco-sites-dashlet > .body div.site-list
+{
+    padding-left: 0;
+    padding-right: 0;
+}
+.myalfresco-sites-dashlet .toolbar {
+    display: none;
+}
+.myalfresco-sites-dashlet .connect {
+    display: none;
+    text-align: center;
+    background-color: #FFFBDD;
+    border-bottom: 1px solid #DDD6A0;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+.myalfresco-sites-dashlet .connect div {
+    margin-bottom: 1em;
+}
+.site-list-item {
+    padding-top: 8px;
+    padding-left: 8px;
+    padding-right: 8px;
+    background-repeat: no-repeat;
+    background-position: 20px 50%;
+    background-image: url("../../../components/images/filetypes/generic-site-32.png");
+}
+.site-list-item-bd {
+    margin-left: 60px;
+}

@@ -1,0 +1,6 @@
+<webscript>
+    <shortname>MyAlfresco Sites</shortname>
+    <description>Display your list of MyAlfresco sites</description>
+    <url>/extras/dashlets/myalfresco-sites</url>
+    <family>dashlet</family>
+</webscript>
