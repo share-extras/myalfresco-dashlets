@@ -11,7 +11,7 @@ function main()
    };
 
    var dashlet = {
-      id : "GitHubNotifications",
+      id : "MyAlfrescoSites",
       name : "Extras.dashlet.MyAlfrescoSites",
       options: {
          endpointId: endpointId,
