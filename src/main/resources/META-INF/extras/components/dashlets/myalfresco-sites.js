@@ -155,7 +155,7 @@ if (typeof Extras.dashlet == "undefined" || !Extras.dashlet)
       {
           // Get the feed from the server
           this._request({
-              url: "sites",
+              url: "people/-me-/sites",
               successCallback: {
                   fn: this.renderFeed,
                   scope: this
@@ -233,14 +233,14 @@ if (typeof Extras.dashlet == "undefined" || !Extras.dashlet)
               for (var i = 0; i < json.list.entries.length; i++)
               {
                   item = json.list.entries[i].entry;
-                  if (item.id)
+                  if (item.site)
                   {
-                      siteId = item.id;
-                      siteTitle = "<h3><a href=\"https://my.alfresco.com/share/alfresco.com/page/site/" + siteId + "/dashboard\">" + (item.title || siteId) + "</a></h3>";
+                      siteId = item.site.id;
+                      siteTitle = "<h3><a href=\"https://my.alfresco.com/share/alfresco.com/page/site/" + siteId + "/dashboard\">" + (item.site.title || siteId) + "</a></h3>";
                       itemClass = "site-list-item detail-list-item";
                       html += "<div class=\"" + itemClass + "\">" + 
                           "<div class=\"site-list-item-bd\">" + siteTitle + 
-                          "<div>" + (item.description || "") + "</div></div>" + 
+                          "<div>" + (item.site.description || "") + "</div></div>" + 
                           "</div>";
                   }
               }
