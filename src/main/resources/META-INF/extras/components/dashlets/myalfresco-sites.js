@@ -155,7 +155,7 @@ if (typeof Extras.dashlet == "undefined" || !Extras.dashlet)
       {
           // Get the feed from the server
           this._request({
-              url: "people/-me-/sites",
+              url: "alfresco.com/public/alfresco/versions/1/people/-me-/sites",
               successCallback: {
                   fn: this.renderFeed,
                   scope: this

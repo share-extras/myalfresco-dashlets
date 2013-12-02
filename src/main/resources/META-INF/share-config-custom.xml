@@ -14,7 +14,7 @@
                 <id>myalfresco-api</id>
                 <name>MyAlfresco Public API</name>
                 <connector-id>myalfresco</connector-id>
-                <endpoint-url>https://api.alfresco.com/alfresco.com/public/alfresco/versions/1</endpoint-url>
+                <endpoint-url>https://api.alfresco.com</endpoint-url>
                 <client-id>l7xx1e3f97a10b2940a994e8df3a358e7c80</client-id>
                 <client-secret>e4c55d9b94ea4fe885cb508ab76f5e7f</client-secret>
                 <access-token-url>https://api.alfresco.com/auth/oauth/versions/2/token</access-token-url>
