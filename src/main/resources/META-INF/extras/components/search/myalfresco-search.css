@@ -1,0 +1,17 @@
+.myalfresco-search {
+    padding: 0.5em;
+    background-color: #f0f0f0;
+    border: 1px solid #cccccc;
+    margin-bottom: 1em;
+    display: none;
+}
+.myalfresco-search-header {
+    margin: 0.25em 0;
+    font-weight: bold;
+}
+.myalfresco-search-results {
+    display: none;
+}
+.myalfresco-search-results > div {
+    margin: 0.25em 0;
+}

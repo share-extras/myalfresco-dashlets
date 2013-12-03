@@ -1,0 +1,13 @@
+<extension>
+    <modules>
+        <module>
+            <id>My Alfresco Search</id>
+            <customizations>
+                <customization>
+                    <targetPackageRoot>org.alfresco</targetPackageRoot>
+                    <sourcePackageRoot>org.sharextras.customization.myalfresco-search</sourcePackageRoot>
+                </customization>
+            </customizations>
+        </module>
+    </modules>
+</extension>
