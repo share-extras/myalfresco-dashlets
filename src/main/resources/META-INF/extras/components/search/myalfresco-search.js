@@ -186,8 +186,7 @@ if (typeof Extras.component == "undefined" || !Extras.component)
           }
           xmlDataSource.sendRequest(
              "?q=" + encodeURIComponent(
-                   "SELECT * FROM cmis:document WHERE cmis:name LIKE '%" + this.options.initialSearchTerm + "%'" +
-                   " AND cmis:name NOT LIKE 'page.%'"
+                   "SELECT * FROM cmis:document WHERE cmis:name LIKE '" + this.options.initialSearchTerm + "%'"
                 ),
           {
              success: this.renderFeed,
