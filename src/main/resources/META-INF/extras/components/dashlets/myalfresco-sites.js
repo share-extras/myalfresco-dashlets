@@ -289,7 +289,7 @@ if (typeof Extras.dashlet == "undefined" || !Extras.dashlet)
                encodeURIComponent(state);
          if (this.options.scopes)
          {
-            authUri += "&scope=" + encodeURIComponent(this.options.scopes)
+            authUri += "&scope=" + encodeURIComponent(this.options.scopes);
          }
          
          window.location = authUri;

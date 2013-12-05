@@ -183,7 +183,7 @@ if (typeof Extras.component == "undefined" || !Extras.component)
                    { key: "name", locator: "cmisra:object/cmis:properties/cmis:propertyString[@localName='contentStreamFileName']/cmis:value" },
                    { key: "nodeRef", locator: "cmisra:object/cmis:properties/cmis:propertyId[@localName='nodeRef']/cmis:value" }
                ]
-          }
+          };
           xmlDataSource.sendRequest(
              "?q=" + encodeURIComponent(
                    "SELECT * FROM cmis:document WHERE cmis:name LIKE '" + this.options.initialSearchTerm + "%'"
@@ -270,7 +270,7 @@ if (typeof Extras.component == "undefined" || !Extras.component)
                encodeURIComponent(state);
          if (this.options.scopes)
          {
-            authUri += "&scope=" + encodeURIComponent(this.options.scopes)
+            authUri += "&scope=" + encodeURIComponent(this.options.scopes);
          }
          
          window.location = authUri;

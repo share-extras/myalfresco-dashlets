@@ -7,7 +7,7 @@ function main()
          name : "Extras.component.MyAlfrescoSearch",
          options : {
             endpointId: endpointId,
-            clientId: connector != null ? connector.getDescriptor().getStringProperty("client-id") : "",
+            clientId: connector !== null ? connector.getDescriptor().getStringProperty("client-id") : "",
             authorizationUrl: "https://api.alfresco.com/auth/oauth/versions/2/authorize",
             initialSearchTerm: model.searchTerm
          }
