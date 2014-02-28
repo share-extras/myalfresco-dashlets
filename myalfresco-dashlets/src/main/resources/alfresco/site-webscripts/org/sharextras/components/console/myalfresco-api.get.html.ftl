@@ -23,8 +23,7 @@
             <button type="submit" name="${el}-execute-button" id="${el}-execute-button">${msg("button.execute")}</button>
             ${msg("label.execute.key")}
         </div>
-        <div class="api-result" id="${el}-result"></div>
-        <pre class="api-response prettyprint" id="${el}-response">
+        <div class="api-results" id="${el}-results"></div>
         </pre>
     </div>
 </div>

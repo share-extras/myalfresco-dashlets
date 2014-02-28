@@ -163,7 +163,7 @@ if (typeof Extras == "undefined" || !Extras)
          
          this._request(
          {
-            url: "-default-/public/cmis/versions/1/" + pathData,
+            url: "-default-/public/alfresco/versions/1/" + pathData,
             method: Alfresco.util.Ajax.GET,
             //dataObj: input,
             requestContentType: Alfresco.util.Ajax.XML,
@@ -189,26 +189,33 @@ if (typeof Extras == "undefined" || !Extras)
        */
       onExecuteSuccess: function MyAlfrescoConsole_onExecuteSuccess(response)
       {
-         Dom.removeClass(Dom.get(this.id + "-result"), "error");
-         Dom.setStyle(Dom.get(this.id + "-result"), "display", "block");
+         var container = document.createElement("div"), 
+         result = document.createElement("div"), 
+         content = document.createElement("pre");
+         
+         container.appendChild(result);
+         container.appendChild(content);
+         Dom.addClass(result, "api-result");
+         Dom.addClass(content, "api-response prettyprint");
+         Dom.get(this.id + "-results").insertBefore(container, Dom.getFirstChild(this.id + "-results"));
          
          if (response.json)
          {
-            this.widgets.response.textContent = JSON.stringify(response.json, null, "  ");
+            content.textContent = JSON.stringify(response.json, null, "  ");
          }
          else if (response.serverResponse.responseXML)
          {
             var oSerializer = new XMLSerializer();
             var sPrettyXML = vkbeautify.xml(oSerializer.serializeToString(response.serverResponse.responseXML));
-            this.widgets.response.textContent = sPrettyXML;
+            content.textContent = sPrettyXML;
          }
          else
          {
-            this.widgets.response.textContent = response.serverResponse.responseText;
+            content.textContent = response.serverResponse.responseText;
          }
          prettyPrint();
          
-         Dom.get(this.id + "-result").innerHTML = this.msg("message.success", this.widgets.path.value, Date.now() - this.timestamp);
+         result.innerHTML = this.msg("message.success", this.widgets.path.value, Date.now() - this.timestamp);
          this.widgets.executeButton.set("disabled", false);
       },
       
@@ -220,21 +227,29 @@ if (typeof Extras == "undefined" || !Extras)
        */
       onExecuteFailure: function MyAlfrescoConsole_onExecuteFailure(response)
       {
-         Dom.setStyle(Dom.get(this.id + "-result"), "display", "block");
-         this.widgets.response.innerHTML = "";
+         var container = document.createElement("div"), 
+            result = document.createElement("div"), 
+            content = document.createElement("pre");
+         
+         container.appendChild(result);
+         container.appendChild(content);
+         Dom.addClass(result, "api-result");
+         Dom.addClass(content, "api-response prettyprint");
+         Dom.get(this.id + "-results").insertBefore(container, Dom.getFirstChild(this.id + "-results"));
+         
          if (response.json && response.json.message)
          {
-            Dom.get(this.id + "-result").innerHTML = response.json.message;
+            content.innerHTML = response.json.message;
          }
          else if (response.json && response.json.error && response.json.error.briefSummary)
          {
-            Dom.get(this.id + "-result").innerHTML = response.json.error.briefSummary + " (" + (response.json.error.statusCode || response.serverResponse.status) + ")";
+            content.innerHTML = response.json.error.briefSummary + " (" + (response.json.error.statusCode || response.serverResponse.status) + ")";
          }
          else
          {
-            Dom.get(this.id + "-result").innerHTML = response.serverResponse.statusText + " (" + response.serverResponse.status + ")";
+            content.innerHTML = response.serverResponse.statusText + " (" + response.serverResponse.status + ")";
          }
-         Dom.addClass(Dom.get(this.id + "-result"), "error");
+         Dom.addClass(content, "error");
          this.widgets.executeButton.set("disabled", false);
       },
       
