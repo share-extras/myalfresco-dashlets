@@ -120,7 +120,7 @@
                 </executions>
                 <configuration>
                     <directories>
-                        <directory>src/main/resources</directory>
+                        <directory>src/main/resources/META-INF/extras/components</directory>
                     </directories>
                 </configuration>
             </plugin>
