@@ -1,0 +1,6 @@
+<webscript>
+    <shortname>Admin Console API Explorer</shortname>
+    <description>Administration Console - API Explorer</description>
+    <url>/extras/components/console/myalfresco-api</url>
+    <family>admin-console</family>
+</webscript>
