@@ -140,6 +140,11 @@ if (typeof Extras == "undefined" || !Extras)
          Extras.MyAlfrescoConsole.superclass.onReady.call(this);
       },
       
+      _getApiRoot: function MyAlfrescoConsole__getApiRoot()
+      {
+         return Dom.get(this.id + "-root").options[Dom.get(this.id + "-root").selectedIndex].value;
+      },
+      
       /**
        * YUI WIDGET EVENT HANDLERS
        * Handlers for standard events fired from YUI widgets, e.g. "click"
@@ -154,7 +159,8 @@ if (typeof Extras == "undefined" || !Extras)
        */
       onExecuteClick: function MyAlfrescoConsole_onExecuteClickk(e, args)
       {
-         var pathData = this.widgets.path.value;
+         var pathData = this.widgets.path.value,
+            apiroot = this._getApiRoot();
 
          // Disable the create button temporarily
          this.widgets.executeButton.set("disabled", true);
@@ -163,7 +169,7 @@ if (typeof Extras == "undefined" || !Extras)
          
          this._request(
          {
-            url: "-default-/public/alfresco/versions/1/" + pathData,
+            url: "-default-/" + apiroot + "/" + pathData,
             method: Alfresco.util.Ajax.GET,
             //dataObj: input,
             requestContentType: Alfresco.util.Ajax.XML,
@@ -215,7 +221,7 @@ if (typeof Extras == "undefined" || !Extras)
          }
          prettyPrint();
          
-         result.innerHTML = this.msg("message.success", this.widgets.path.value, Date.now() - this.timestamp);
+         result.innerHTML = this.msg("message.success", this._getApiRoot() + "/" + this.widgets.path.value, Date.now() - this.timestamp);
          this.widgets.executeButton.set("disabled", false);
       },
       
