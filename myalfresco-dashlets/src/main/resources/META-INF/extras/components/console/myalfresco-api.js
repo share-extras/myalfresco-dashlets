@@ -125,7 +125,9 @@ if (typeof Extras == "undefined" || !Extras)
           * @type string
           * @default ""
           */
-         endpointId: ""
+         endpointId: "",
+         
+         networkId: "-default-"
       },
       
       /**
@@ -145,6 +147,16 @@ if (typeof Extras == "undefined" || !Extras)
          return Dom.get(this.id + "-root").options[Dom.get(this.id + "-root").selectedIndex].value;
       },
       
+      _getMethod: function MyAlfrescoConsole__getMethod()
+      {
+         return Dom.get(this.id + "-method").options[Dom.get(this.id + "-method").selectedIndex].value;
+      },
+      
+      _getTenantId: function MyAlfrescoConsole__getTenantId()
+      {
+         return this.options.networkId;
+      },
+      
       /**
        * YUI WIDGET EVENT HANDLERS
        * Handlers for standard events fired from YUI widgets, e.g. "click"
@@ -159,8 +171,7 @@ if (typeof Extras == "undefined" || !Extras)
        */
       onExecuteClick: function MyAlfrescoConsole_onExecuteClickk(e, args)
       {
-         var pathData = this.widgets.path.value,
-            apiroot = this._getApiRoot();
+         var pathData = this.widgets.path.value;
 
          // Disable the create button temporarily
          this.widgets.executeButton.set("disabled", true);
@@ -169,8 +180,8 @@ if (typeof Extras == "undefined" || !Extras)
          
          this._request(
          {
-            url: "-default-/" + apiroot + "/" + pathData,
-            method: Alfresco.util.Ajax.GET,
+            url: this._getTenantId() + "/" + this._getApiRoot() + "/" + pathData,
+            method: this._getMethod(),
             //dataObj: input,
             requestContentType: Alfresco.util.Ajax.XML,
             responseContentType: Alfresco.util.Ajax.XML,
@@ -221,7 +232,7 @@ if (typeof Extras == "undefined" || !Extras)
          }
          prettyPrint();
          
-         result.innerHTML = this.msg("message.success", this._getApiRoot() + "/" + this.widgets.path.value, Date.now() - this.timestamp);
+         result.innerHTML = response.config.method + " " + response.config.url + " " + response.serverResponse.status + " - " + (Date.now() - this.timestamp) + " ms";
          this.widgets.executeButton.set("disabled", false);
       },
       
