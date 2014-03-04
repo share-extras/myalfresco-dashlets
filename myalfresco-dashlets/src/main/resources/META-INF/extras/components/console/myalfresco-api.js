@@ -187,24 +187,24 @@ if (typeof Extras == "undefined" || !Extras)
             responseContentType: Alfresco.util.Ajax.XML,
             successCallback:
             {
-               fn: this.onExecuteSuccess,
+               fn: this.onExecuteResult,
                scope: this
             },
             failureCallback:
             {
-               fn: this.onExecuteFailure,
+               fn: this.onExecuteResult,
                scope: this
             }
          });
       },
       
       /**
-       * Execute call success handler
+       * Execute call success or failure handler
        *
-       * @method onExecuteSuccess
+       * @method onExecuteResult
        * @param response {object} Server response
        */
-      onExecuteSuccess: function MyAlfrescoConsole_onExecuteSuccess(response)
+      onExecuteResult: function MyAlfrescoConsole_onExecuteResult(response)
       {
          var container = document.createElement("div"), 
          result = document.createElement("div"), 
@@ -233,40 +233,6 @@ if (typeof Extras == "undefined" || !Extras)
          prettyPrint();
          
          result.innerHTML = response.config.method + " " + response.config.url + " " + response.serverResponse.status + " - " + (Date.now() - this.timestamp) + " ms";
-         this.widgets.executeButton.set("disabled", false);
-      },
-      
-      /**
-       * Execute call failure handler
-       *
-       * @method onCreateFailure
-       * @param response {object} Server response
-       */
-      onExecuteFailure: function MyAlfrescoConsole_onExecuteFailure(response)
-      {
-         var container = document.createElement("div"), 
-            result = document.createElement("div"), 
-            content = document.createElement("pre");
-         
-         container.appendChild(result);
-         container.appendChild(content);
-         Dom.addClass(result, "api-result");
-         Dom.addClass(content, "api-response prettyprint");
-         Dom.get(this.id + "-results").insertBefore(container, Dom.getFirstChild(this.id + "-results"));
-         
-         if (response.json && response.json.message)
-         {
-            content.innerHTML = response.json.message;
-         }
-         else if (response.json && response.json.error && response.json.error.briefSummary)
-         {
-            content.innerHTML = response.json.error.briefSummary + " (" + (response.json.error.statusCode || response.serverResponse.status) + ")";
-         }
-         else
-         {
-            content.innerHTML = response.serverResponse.statusText + " (" + response.serverResponse.status + ")";
-         }
-         Dom.addClass(content, "error");
          this.widgets.executeButton.set("disabled", false);
       },
       
