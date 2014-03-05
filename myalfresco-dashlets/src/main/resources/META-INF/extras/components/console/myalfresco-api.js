@@ -37,7 +37,8 @@ if (typeof Extras == "undefined" || !Extras)
    /*
     * Constants
     */
-   var PROXY_ALFRESCO = "alfresco";
+   var PROXY_ALFRESCO = "alfresco",
+      NETWORK_DEFAULT = "-default-";
 
    /**
     * MyAlfrescoConsole constructor.
@@ -132,9 +133,23 @@ if (typeof Extras == "undefined" || !Extras)
           */
          endpointId: "",
          
+         /**
+          * Base endpoint URL
+          * 
+          * @property endpointUrl
+          * @type string
+          * @default ""
+          */
          endpointUrl: "",
          
-         networkId: "-default-"
+         /**
+          * Network ID used to construct API endpoint URLs
+          * 
+          * @property networkId
+          * @type string
+          * @default "-default-"
+          */
+         networkId: NETWORK_DEFAULT
       },
       
       /**
