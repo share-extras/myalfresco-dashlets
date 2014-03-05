@@ -89,6 +89,7 @@ if (typeof Extras == "undefined" || !Extras)
             parent.widgets.helpText = Dom.get(parent.id + "-format-help");
             // Buttons
             parent.widgets.executeButton = Alfresco.util.createYUIButton(parent, "execute-button", parent.onExecuteClick);
+            parent.widgets.clearButton = Alfresco.util.createYUIButton(parent, "clear-button", parent.onClearClick);
             
             // Add Ctrl-Enter listener
             YAHOO.util.Event.on(parent.widgets.path, "keyup", function (e) {
@@ -272,6 +273,18 @@ if (typeof Extras == "undefined" || !Extras)
                scope: this
             }
          });
+      },
+      
+      /**
+       * Clear button click event handler
+       *
+       * @method onClearClick
+       * @param e {object} DomEvent
+       * @param args {array} Event parameters (depends on event type)
+       */
+      onClearClick: function MyAlfrescoConsole_onClearClick(e, args)
+      {
+         Dom.get(this.id + "-results").innerHTML = "";
       },
       
       /**

@@ -54,3 +54,11 @@
 {
     margin-top: 1em;
 }
+.api-console .run-controls
+{
+    margin-right: 100px;
+}
+.api-console .buttons
+{
+    float: right;
+}
