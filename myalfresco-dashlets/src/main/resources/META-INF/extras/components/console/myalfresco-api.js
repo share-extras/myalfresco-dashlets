@@ -163,6 +163,9 @@ if (typeof Extras == "undefined" || !Extras)
          // Call super-class onReady() method
          Extras.MyAlfrescoConsole.superclass.onReady.call(this);
 
+         // Update the URL shown in the header
+         Dom.get(this.id + "-api-base").innerHTML = this.options.endpointUrl;
+
          this._request(
          {
             url: "",
@@ -198,6 +201,7 @@ if (typeof Extras == "undefined" || !Extras)
                if (entry.homeNetwork === true)
                {
                   this.options.networkId = entry.id;
+                  Dom.get(this.id + "-api-network").innerHTML = entry.id;
                }
             }
          }
@@ -220,7 +224,8 @@ if (typeof Extras == "undefined" || !Extras)
       
       _getMethod: function MyAlfrescoConsole__getMethod()
       {
-         return Dom.get(this.id + "-method").options[Dom.get(this.id + "-method").selectedIndex].value;
+         var select = Dom.get(this.id + "-method");
+         return select ? select.options[select.selectedIndex].value : "GET";
       },
       
       _getTenantId: function MyAlfrescoConsole__getTenantId()
