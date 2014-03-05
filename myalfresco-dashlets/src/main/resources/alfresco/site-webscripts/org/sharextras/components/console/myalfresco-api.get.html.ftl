@@ -6,7 +6,8 @@
 <#assign el=args.htmlid?html>
 <script type="text/javascript">//<![CDATA[
     new Extras.MyAlfrescoConsole("${el}").setMessages(${messages}).setOptions({
-        endpointId: "${endpointId?js_string}"
+        endpointId: "${endpointId?js_string}",
+        endpointUrl: "${endpointUrl?js_string}"
     });
 //]]></script>
 </script>

@@ -5,6 +5,7 @@ function main()
 
    model.endpointId = endpointId;
    model.clientId = connector !== null ? connector.getDescriptor().getStringProperty("client-id") : "";
+   model.endpointUrl = connector !== null ? connector.getDescriptor().getStringProperty("endpoint-url") : "";
    model.authorizationUrl = "https://api.alfresco.com/auth/oauth/versions/2/authorize";
 
    // TODO use model widgets object

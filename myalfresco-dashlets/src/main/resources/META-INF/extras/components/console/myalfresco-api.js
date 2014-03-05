@@ -33,6 +33,11 @@ if (typeof Extras == "undefined" || !Extras)
     * Alfresco Slingshot aliases
     */
    var $html = Alfresco.util.encodeHTML;
+   
+   /*
+    * Constants
+    */
+   var PROXY_ALFRESCO = "alfresco";
 
    /**
     * MyAlfrescoConsole constructor.
@@ -126,6 +131,8 @@ if (typeof Extras == "undefined" || !Extras)
           * @default ""
           */
          endpointId: "",
+         
+         endpointUrl: "",
          
          networkId: "-default-"
       },
@@ -232,7 +239,7 @@ if (typeof Extras == "undefined" || !Extras)
          }
          prettyPrint();
          
-         result.innerHTML = response.config.method + " " + response.config.url + " " + response.serverResponse.status + " - " + (Date.now() - this.timestamp) + " ms";
+         result.innerHTML = response.config.method + " " + response.config.url.replace(this._getProxyEndpoint(), this.options.endpointUrl + "/") + " " + response.serverResponse.status + " - " + (Date.now() - this.timestamp) + " ms";
          this.widgets.executeButton.set("disabled", false);
       },
       
@@ -256,13 +263,18 @@ if (typeof Extras == "undefined" || !Extras)
          }
       },
       
+      _getProxyEndpoint: function MyAlfrescoConsole__getProxyEndpoint()
+      {
+         return Alfresco.constants.PROXY_URI.replace("/" + PROXY_ALFRESCO + "/", "/" + this.options.endpointId +"/");
+      },
+      
       /**
        * Make a request against the API
        */
       _request: function MyAlfrescoConsole__request(config)
       {
           Alfresco.util.Ajax.jsonRequest({
-              url: Alfresco.constants.PROXY_URI.replace("/alfresco/", "/" + this.options.endpointId +"/") + config.url,
+              url: this._getProxyEndpoint() + config.url,
               method: config.method || "GET",
               dataObj: config.dataObj || {},
               successCallback: config.successCallback,
