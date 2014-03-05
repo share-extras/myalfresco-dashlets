@@ -147,6 +147,55 @@ if (typeof Extras == "undefined" || !Extras)
       {
          // Call super-class onReady() method
          Extras.MyAlfrescoConsole.superclass.onReady.call(this);
+
+         this._request(
+         {
+            url: "",
+            method: "GET",
+            requestContentType: Alfresco.util.Ajax.JSON,
+            responseContentType: Alfresco.util.Ajax.JSON,
+            successCallback:
+            {
+               fn: this.onLoadNetworksSuccess,
+               scope: this
+            },
+            failureCallback:
+            {
+               fn: this.onLoadNetworksFailure,
+               scope: this
+            }
+         });
+      },
+      
+      /**
+       * Success handler for initial loading of networks for this user
+       * 
+       * @method onLoadNetworksSuccess
+       */
+      onLoadNetworksSuccess: function MyAlfrescoConsole_onLoadNetworksSuccess(response)
+      {
+         var entry;
+         if (response.json && response.json.list)
+         {
+            for (var i = 0; i < response.json.list.entries.length; i++)
+            {
+               entry = response.json.list.entries[i].entry;
+               if (entry.homeNetwork === true)
+               {
+                  this.options.networkId = entry.id;
+               }
+            }
+         }
+      },
+      
+      /**
+       * Failure handler for initial loading of networks for this user
+       * 
+       * @method onLoadNetworksFailure
+       */
+      onLoadNetworksFailure: function MyAlfrescoConsole_onLoadNetworksFailure(response)
+      {
+         // TODO Tell the user that they need to authorize the console to connect to Cloud
       },
       
       _getApiRoot: function MyAlfrescoConsole__getApiRoot()
