@@ -46,6 +46,14 @@
     line-height: 1.25em;
     margin: 0.5em 0;
 }
+.api-console .api-path
+{
+    width: 30em;
+}
+.api-console .api-method
+{
+    width: 18em;
+}
 .api-console .api-result
 {
     margin-top: 1em;
@@ -53,6 +61,10 @@
 .api-console .api-response
 {
     margin-top: 1em;
+}
+.api-console span.response-data
+{
+    float: right;
 }
 .api-console .run-controls
 {

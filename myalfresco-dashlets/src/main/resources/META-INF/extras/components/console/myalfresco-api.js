@@ -253,7 +253,7 @@ if (typeof Extras == "undefined" || !Extras)
          // Disable the create button temporarily
          this.widgets.executeButton.set("disabled", true);
          
-         this.timestamp = Date.now();
+         var customObj = { timestamp: Date.now() };
          
          this._request(
          {
@@ -265,12 +265,14 @@ if (typeof Extras == "undefined" || !Extras)
             successCallback:
             {
                fn: this.onExecuteResult,
-               scope: this
+               scope: this,
+               obj: customObj
             },
             failureCallback:
             {
                fn: this.onExecuteResult,
-               scope: this
+               scope: this,
+               obj: customObj
             }
          });
       },
@@ -292,12 +294,15 @@ if (typeof Extras == "undefined" || !Extras)
        *
        * @method onExecuteResult
        * @param response {object} Server response
+       * @param response {obj} Custom object passed in from the calling code
        */
-      onExecuteResult: function MyAlfrescoConsole_onExecuteResult(response)
+      onExecuteResult: function MyAlfrescoConsole_onExecuteResult(response, obj)
       {
          var container = document.createElement("div"), 
-         result = document.createElement("div"), 
-         content = document.createElement("pre");
+            result = document.createElement("div"), 
+            content = document.createElement("pre"),
+            contentLength = response.serverResponse.responseText.length,
+            requestTime = Date.now() - obj.timestamp;
          
          container.appendChild(result);
          container.appendChild(content);
@@ -321,7 +326,12 @@ if (typeof Extras == "undefined" || !Extras)
          }
          prettyPrint();
          
-         result.innerHTML = response.config.method + " " + response.config.url.replace(this._getProxyEndpoint(), this.options.endpointUrl + "/") + " " + response.serverResponse.status + " - " + (Date.now() - this.timestamp) + " ms";
+         result.innerHTML = response.config.method + " " + 
+            response.config.url.replace(this._getProxyEndpoint(), this.options.endpointUrl + "/") + " " + 
+            "<span class=\"response-data\">" + 
+            response.serverResponse.status + " " + response.serverResponse.statusText + " / " + requestTime + " ms" +
+            " / " + Alfresco.util.formatFileSize(contentLength) + 
+            "</span>";
          this.widgets.executeButton.set("disabled", false);
       },
       
