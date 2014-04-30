@@ -180,6 +180,11 @@ if (typeof Extras == "undefined" || !Extras)
          // Update the URL shown in the header
          Dom.get(this.id + "-api-base").innerHTML = this.options.endpointUrl;
 
+         Dom.setStyle(this.id + "-postdata", "display", this._getMethod() == "GET" ? "none" : "block");
+         Event.addListener(this.id + "-method", "change", function(e) {
+            Dom.setStyle(this.id + "-postdata", "display", this._getMethod() == "GET" ? "none" : "block");
+         }, this, true);
+
          this._request(
          {
             url: "",
@@ -254,6 +259,12 @@ if (typeof Extras == "undefined" || !Extras)
          return select ? select.options[select.selectedIndex].value : "GET";
       },
       
+      _getPostData: function MyAlfrescoConsole__getPostData()
+      {
+         var textarea = Dom.get(this.id + "-postdata");
+         return textarea.value;
+      },
+      
       _getTenantId: function MyAlfrescoConsole__getTenantId()
       {
          return this.options.networkId;
@@ -288,15 +299,27 @@ if (typeof Extras == "undefined" || !Extras)
          // Disable the create button temporarily
          this.widgets.executeButton.set("disabled", true);
          
-         var customObj = { timestamp: Date.now() };
+         var customObj = { timestamp: Date.now() }, contentType = Alfresco.util.Ajax.FORM,
+         postData = this._getPostData();
+         
+         if (postData !== "")
+         {
+            if (postData.indexOf("{") === 0)
+            {
+               contentType = Alfresco.util.Ajax.JSON;
+            }
+            else if (postData.indexOf("<") === 0)
+            {
+               contentType = "application/atom+xml";
+            }
+         }
          
          this._request(
          {
             url: this._getTenantId() + "/" + this._getApiRoot() + "/" + pathData,
             method: this._getMethod(),
-            //dataObj: input,
-            requestContentType: Alfresco.util.Ajax.XML,
-            responseContentType: Alfresco.util.Ajax.XML,
+            dataStr: this._getMethod() !== "GET" ? postData : null,
+            requestContentType: contentType,
             successCallback:
             {
                fn: this.onExecuteResult,
@@ -432,10 +455,13 @@ if (typeof Extras == "undefined" || !Extras)
        */
       _request: function MyAlfrescoConsole__request(config)
       {
-          Alfresco.util.Ajax.jsonRequest({
+          Alfresco.util.Ajax.request({
               url: this._getProxyEndpoint() + config.url,
               method: config.method || "GET",
-              dataObj: config.dataObj || {},
+              dataObj: config.dataObj || null,
+              dataStr: config.dataStr || null,
+              requestContentType: config.requestContentType || null,
+              responseContentType: config.responseContentType || null,
               successCallback: config.successCallback,
               failureCallback: config.failureCallback,
               noReloadOnAuthFailure: true

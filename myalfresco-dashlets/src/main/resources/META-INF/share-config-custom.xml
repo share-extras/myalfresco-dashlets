@@ -6,7 +6,7 @@
                 <id>myalfresco</id>
                 <name>MyAlfresco-specific OAuth 2.0 Connector</name>
                 <description>HTTP Connector with support for OAuth 2.0 authentication</description>
-                <class>org.sharextras.webscripts.connector.HttpOAuth2Connector</class>
+                <class>org.sharextras.webscripts.connector.MyAlfrescoApiConnector</class>
                 <identity>user</identity>
                 <auth-method>Bearer</auth-method>
             </connector>

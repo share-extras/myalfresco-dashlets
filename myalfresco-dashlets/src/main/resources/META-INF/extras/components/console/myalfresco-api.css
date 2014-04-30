@@ -46,6 +46,10 @@
     line-height: 1.25em;
     margin: 0.5em 0;
 }
+.api-console select[name="method"]
+{
+    width: 7em;
+}
 .api-console .api-path
 {
     width: 30em;
@@ -53,6 +57,13 @@
 .api-console .api-method
 {
     width: 18em;
+}
+.api-console textarea
+{
+    display: none;
+    width: 40em;
+    height: 5em;
+    margin: 5px 0;
 }
 .api-console .api-result
 {
