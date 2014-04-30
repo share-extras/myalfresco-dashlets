@@ -150,7 +150,18 @@ if (typeof Extras == "undefined" || !Extras)
           * @type string
           * @default "-default-"
           */
-         networkId: NETWORK_DEFAULT
+         networkId: NETWORK_DEFAULT,
+         
+         /**
+          * URL of the web script (minus the leading slash) to be used as the return landing page after
+          * authorization has taken place. The script must exchange the temporary code for an access
+          * token and persist it to the repository.
+          * 
+          * @property returnPage
+          * @type string
+          * @default "extras/oauth/auth2-return"
+          */
+         returnPage: "extras/oauth/auth2-return"
       },
       
       /**
@@ -163,6 +174,8 @@ if (typeof Extras == "undefined" || !Extras)
       {
          // Call super-class onReady() method
          Extras.MyAlfrescoConsole.superclass.onReady.call(this);
+
+         Alfresco.util.createYUIButton(this, "connectButton", this.onConnectClick);
 
          // Update the URL shown in the header
          Dom.get(this.id + "-api-base").innerHTML = this.options.endpointUrl;
@@ -215,7 +228,19 @@ if (typeof Extras == "undefined" || !Extras)
        */
       onLoadNetworksFailure: function MyAlfrescoConsole_onLoadNetworksFailure(response)
       {
-         // TODO Tell the user that they need to authorize the console to connect to Cloud
+         if (response.serverResponse.status == 401 || response.serverResponse.status == 403)
+         {
+             this.showConnect();
+             Dom.getElementsByClassName("needs-auth", null, Dom.get(this.id), function(el) {
+                Alfresco.util.Anim.fadeOut(el, {});
+             }, this, true);
+         }
+         else
+         {
+             Alfresco.util.PopupManager.displayMessage({
+                 text: this.msg("error.loadNetworks")
+             });
+         }
       },
       
       _getApiRoot: function MyAlfrescoConsole__getApiRoot()
@@ -233,7 +258,17 @@ if (typeof Extras == "undefined" || !Extras)
       {
          return this.options.networkId;
       },
+
       
+      /**
+       * Show the Connect to Chatter button at the top of the dashlet
+       */
+      showConnect: function MyAlfrescoConsole_showConnect()
+      {
+          Dom.setStyle(this.id + "-connect", "display", "block");
+          Alfresco.util.Anim.fadeIn(this.id + "-connect", {});
+      },
+
       /**
        * YUI WIDGET EVENT HANDLERS
        * Handlers for standard events fired from YUI widgets, e.g. "click"
@@ -355,6 +390,38 @@ if (typeof Extras == "undefined" || !Extras)
          }
       },
       
+
+      /**
+       * Click handler for Connect button clicked
+       * 
+       * @method onConnectClick
+       * @param p_oEvent {object} HTML event
+       */
+      onConnectClick: function MyAlfrescoConsole_onConnectClick(p_oEvent)
+      {
+         // TODO if this is a site dashboard we need to persist the location of the page we started from,
+         // since it seems URL parameters specified on the return URL are not preserved.
+         
+         // TODO add a random parameter to the state and ensure that this comes back unmodified
+         
+         var returnUrl = window.location.protocol + "//" + window.location.host + 
+               Alfresco.constants.URL_PAGECONTEXT + this.options.returnPage + "/" + encodeURIComponent(this.options.endpointId),
+            pageUrl = window.location.pathname.replace(Alfresco.constants.URL_CONTEXT, ""),
+            state = "rp=" + encodeURIComponent(pageUrl),
+            authUri = this.options.authorizationUrl + 
+               "?response_type=code&client_id=" + 
+               this.options.clientId + "&redirect_uri=" +
+               encodeURIComponent(returnUrl) + "&state=" + 
+               encodeURIComponent(state);
+         if (this.options.scopes)
+         {
+            authUri += "&scope=" + encodeURIComponent(this.options.scopes);
+         }
+         
+         window.location = authUri;
+         
+      },
+
       _getProxyEndpoint: function MyAlfrescoConsole__getProxyEndpoint()
       {
          return Alfresco.constants.PROXY_URI.replace("/" + PROXY_ALFRESCO + "/", "/" + this.options.endpointId +"/");
